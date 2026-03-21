@@ -17,7 +17,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain.chains import ConversationalRetrievalChain
+from langchain.chains.conversational_retrieval.base import ConversationalRetrievalChain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 import constants as ct
