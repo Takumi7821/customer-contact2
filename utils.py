@@ -17,7 +17,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains import ConversationalRetrievalChain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 import constants as ct
@@ -112,12 +112,10 @@ def create_rag_chain(db_name):
         ]
     )
 
-    history_aware_retriever = create_history_aware_retriever(
-        st.session_state.llm, retriever, question_generator_prompt
+    rag_chain = ConversationalRetrievalChain.from_llm(
+        llm=st.session_state.llm,
+        retriever=retriever
     )
-
-    question_answer_chain = create_stuff_documents_chain(st.session_state.llm, question_answer_prompt)
-    rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
     return rag_chain
 
