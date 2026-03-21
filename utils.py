@@ -15,7 +15,7 @@ from langchain_community.document_loaders import PyMuPDFLoader, Docx2txtLoader
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
-from langchain_openai import OpenAIEmbeddings
+from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
