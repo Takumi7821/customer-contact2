@@ -42,3 +42,4 @@ urllib3==2.6.3
 langchain-community
 pymupdf
 docx2txt
+langchain-openai==0.0.8
