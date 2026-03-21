@@ -12,9 +12,9 @@ import logging
 import sys
 import unicodedata
 from langchain_community.document_loaders import PyMuPDFLoader, Docx2txtLoader
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema import HumanMessage, AIMessage
+from langchain_text_splitters import CharacterTextSplitter
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
@@ -196,6 +196,129 @@ def run_customer_doc_chain(param):
     st.session_state.chat_history.extend([HumanMessage(content=param), AIMessage(content=ai_msg["answer"])])
 
     return ai_msg["answer"]
+
+
+def run_llm_chain(param):
+    """
+    汎用的なLLM呼び出し用のスケルトン関数（未実装のプレースホルダ）。
+
+    Args:
+        param: ユーザー入力値
+
+    Returns:
+        文字列（現状はプレースホルダ応答）
+    """
+    logger = logging.getLogger(ct.LOGGER_NAME)
+    logger.info("run_llm_chain called")
+
+    # 会話履歴へユーザー入力を追加
+    st.session_state.chat_history.extend([HumanMessage(content=param)])
+
+    # LLMオブジェクトへの呼び出しを試行（複数のAPI形態に対応）
+    try:
+        llm = st.session_state.llm
+
+        # 1) langchain BaseLanguageModel の generate 系
+        if hasattr(llm, "generate"):
+            gen = llm.generate([[HumanMessage(content=param)]])
+            # 生成物からテキストを抽出（互換性のために複数パターンを試す）
+            try:
+                text = gen.generations[0][0].text
+            except Exception:
+                # 代替パス
+                text = str(gen)
+
+        # 2) 一部のラッパーは __call__ を提供する
+        elif callable(llm):
+            res = llm(param)
+            if isinstance(res, str):
+                text = res
+            elif isinstance(res, dict):
+                text = res.get("output") or res.get("answer") or res.get("text") or str(res)
+            else:
+                text = str(res)
+
+        # 3) invoke が提供される場合（ChainやAgent互換）
+        elif hasattr(llm, "invoke"):
+            res = llm.invoke({"input": param})
+            if isinstance(res, dict):
+                text = res.get("output") or res.get("answer") or str(res)
+            else:
+                text = str(res)
+
+        else:
+            text = "[未対応のLLMオブジェクト]"
+
+    except Exception as e:
+        logger.exception("LLM call failed")
+        st.session_state.chat_history.extend([AIMessage(content=ct.GET_LLM_RESPONSE_ERROR_MESSAGE)])
+        return f"{ct.GET_LLM_RESPONSE_ERROR_MESSAGE}\n{e}"
+
+    # 会話履歴へLLM応答を追加
+    st.session_state.chat_history.extend([AIMessage(content=text)])
+
+    return text
+
+
+def summarize_text(param):
+    """
+    長文要約用のスケルトン関数（未実装のプレースホルダ）。
+
+    Args:
+        param: 要約対象のテキスト
+
+    Returns:
+        要約テキスト（現状はプレースホルダ応答）
+    """
+    logger = logging.getLogger(ct.LOGGER_NAME)
+    logger.info("summarize_text called")
+
+    response = "[未実装] 要約ツールです。utils.summarize_text を実装してください。"
+
+    return response
+
+
+def analyze_sentiment(param):
+    """
+    感情分析用のスケルトン関数（未実装のプレースホルダ）。
+
+    Args:
+        param: 分析対象のテキスト
+
+    Returns:
+        辞書形式の簡易結果（label, score）
+    """
+    logger = logging.getLogger(ct.LOGGER_NAME)
+    logger.info("analyze_sentiment called")
+
+    # プレースホルダの返却値
+    return {"label": "unknown", "score": 0.0, "message": "[未実装] utils.analyze_sentiment を実装してください。"}
+
+
+def aggregate_knowledge(param):
+    """
+    会社・サービス・顧客の全データを横断検索するTool用の関数。
+
+    Args:
+        param: ユーザー入力値
+
+    Returns:
+        検索結果に基づく要約文字列
+    """
+    logger = logging.getLogger(ct.LOGGER_NAME)
+    logger.info("aggregate_knowledge called")
+
+    # 全データ用のRAGチェーンが存在することを想定
+    if "rag_chain" not in st.session_state:
+        logger.error("rag_chain is not initialized")
+        return ct.NO_DOC_MATCH_MESSAGE
+
+    ai_msg = st.session_state.rag_chain.invoke({"input": param, "chat_history": st.session_state.chat_history})
+
+    # 会話履歴への追加
+    st.session_state.chat_history.extend([HumanMessage(content=param), AIMessage(content=ai_msg.get("answer", ""))])
+
+    return ai_msg.get("answer", ct.NO_DOC_MATCH_MESSAGE)
 
 
 def delete_old_conversation_log(result):

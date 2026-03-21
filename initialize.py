@@ -149,6 +149,32 @@ def initialize_agent_executor():
             func=search.run,
             description=ct.SEARCH_WEB_INFO_TOOL_DESCRIPTION
         )
+        ,
+        # 全データ横断検索ツール
+        Tool(
+            name=ct.AGGREGATE_KB_TOOL_NAME,
+            func=utils.aggregate_knowledge,
+            description=ct.AGGREGATE_KB_TOOL_DESCRIPTION
+        )
+        ,
+        # 汎用LLM応答ツール
+        Tool(
+            name=ct.ANSWER_WITH_LLM_TOOL_NAME,
+            func=utils.run_llm_chain,
+            description=ct.ANSWER_WITH_LLM_TOOL_DESCRIPTION
+        ),
+        # 要約ツール
+        Tool(
+            name=ct.SUMMARIZE_TOOL_NAME,
+            func=utils.summarize_text,
+            description=ct.SUMMARIZE_TOOL_DESCRIPTION
+        ),
+        # 感情分析ツール
+        Tool(
+            name=ct.SENTIMENT_ANALYSIS_TOOL_NAME,
+            func=utils.analyze_sentiment,
+            description=ct.SENTIMENT_ANALYSIS_TOOL_DESCRIPTION
+        )
     ]
 
     # Agent Executorの作成
