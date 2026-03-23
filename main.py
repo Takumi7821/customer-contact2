@@ -34,7 +34,7 @@ import traceback
 
 except Exception as e:
     logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
-    logger.error(traceback.format_exc())  # ←ログに完全出力
+    logger.error(traceback.format_exc())
 
     st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
     st.stop()
