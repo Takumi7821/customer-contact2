@@ -15,9 +15,9 @@ from langchain_community.document_loaders import PyMuPDFLoader, Docx2txtLoader
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings  
 from langchain_community.vectorstores import Chroma
-from langchain.chains.conversational_retrieval.base import ConversationalRetrievalChain
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 import constants as ct
@@ -89,9 +89,12 @@ def create_rag_chain(db_name):
 
     # すでに対象のデータベースが作成済みの場合は読み込み、未作成の場合は新規作成する
     if os.path.isdir(db_name):
-        db = Chroma(persist_directory=".db", embedding_function=embeddings)
+        db = Chroma(
+            persist_directory=db_name,
+            embedding_function=embeddings
+        )
     else:
-        db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=".db")
+        db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=db_name)
 
     retriever = db.as_retriever(search_kwargs={"k": ct.TOP_K})
 
@@ -112,10 +115,12 @@ def create_rag_chain(db_name):
         ]
     )
 
-    rag_chain = ConversationalRetrievalChain.from_llm(
-        llm=st.session_state.llm,
-        retriever=retriever
+    history_aware_retriever = create_history_aware_retriever(
+        st.session_state.llm, retriever, question_generator_prompt
     )
+
+    question_answer_chain = create_stuff_documents_chain(st.session_state.llm, question_answer_prompt)
+    rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
     return rag_chain
 
@@ -198,125 +203,110 @@ def run_customer_doc_chain(param):
 
 def run_llm_chain(param):
     """
-    汎用的なLLM呼び出し用のスケルトン関数（未実装のプレースホルダ）。
+    汎用LLM応答ツール（スケルトン実装）
 
     Args:
         param: ユーザー入力値
 
     Returns:
-        文字列（現状はプレースホルダ応答）
+        LLMからの回答（文字列）
     """
     logger = logging.getLogger(ct.LOGGER_NAME)
-    logger.info("run_llm_chain called")
-
-    # 会話履歴へユーザー入力を追加
-    st.session_state.chat_history.extend([HumanMessage(content=param)])
-
-    # LLMオブジェクトへの呼び出しを試行（複数のAPI形態に対応）
     try:
-        llm = st.session_state.llm
-
-        # 1) langchain BaseLanguageModel の generate 系
-        if hasattr(llm, "generate"):
-            gen = llm.generate([[HumanMessage(content=param)]])
-            # 生成物からテキストを抽出（互換性のために複数パターンを試す）
-            try:
-                text = gen.generations[0][0].text
-            except Exception:
-                # 代替パス
-                text = str(gen)
-
-        # 2) 一部のラッパーは __call__ を提供する
-        elif callable(llm):
-            res = llm(param)
-            if isinstance(res, str):
-                text = res
-            elif isinstance(res, dict):
-                text = res.get("output") or res.get("answer") or res.get("text") or str(res)
-            else:
-                text = str(res)
-
-        # 3) invoke が提供される場合（ChainやAgent互換）
-        elif hasattr(llm, "invoke"):
-            res = llm.invoke({"input": param})
-            if isinstance(res, dict):
-                text = res.get("output") or res.get("answer") or str(res)
-            else:
-                text = str(res)
-
-        else:
-            text = "[未対応のLLMオブジェクト]"
-
+        prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", "あなたは有用で簡潔なアシスタントです。ユーザーの質問に丁寧に答えてください。"),
+                ("human", "{input}")
+            ]
+        )
+        chain = create_stuff_documents_chain(st.session_state.llm, prompt_template)
+        res = chain.invoke({"input": param})
+        answer = res.get("answer", str(res))
+        st.session_state.chat_history.extend([HumanMessage(content=param), AIMessage(content=answer)])
+        return answer
     except Exception as e:
-        logger.exception("LLM call failed")
-        st.session_state.chat_history.extend([AIMessage(content=ct.GET_LLM_RESPONSE_ERROR_MESSAGE)])
-        return f"{ct.GET_LLM_RESPONSE_ERROR_MESSAGE}\n{e}"
-
-    # 会話履歴へLLM応答を追加
-    st.session_state.chat_history.extend([AIMessage(content=text)])
-
-    return text
+        logger.error(f"run_llm_chain error: {e}")
+        return ct.GET_LLM_RESPONSE_ERROR_MESSAGE
 
 
 def summarize_text(param):
     """
-    長文要約用のスケルトン関数（未実装のプレースホルダ）。
+    要約ツール（スケルトン実装）
 
     Args:
-        param: 要約対象のテキスト
+        param: 要約対象テキスト
 
     Returns:
-        要約テキスト（現状はプレースホルダ応答）
+        要約テキスト（文字列）
     """
     logger = logging.getLogger(ct.LOGGER_NAME)
-    logger.info("summarize_text called")
-
-    response = "[未実装] 要約ツールです。utils.summarize_text を実装してください。"
-
-    return response
+    try:
+        prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", "以下のテキストを日本語で簡潔に要約してください。重要なポイントを箇条書きで出力してください。"),
+                ("human", "{input}")
+            ]
+        )
+        chain = create_stuff_documents_chain(st.session_state.llm, prompt_template)
+        res = chain.invoke({"input": param})
+        return res.get("answer", str(res))
+    except Exception as e:
+        logger.error(f"summarize_text error: {e}")
+        return "要約に失敗しました。"
 
 
 def analyze_sentiment(param):
     """
-    感情分析用のスケルトン関数（未実装のプレースホルダ）。
+    感情分析ツール（スケルトン実装）
 
     Args:
-        param: 分析対象のテキスト
+        param: 顧客メッセージ等のテキスト
 
     Returns:
-        辞書形式の簡易結果（label, score）
+        'positive' / 'negative' / 'neutral'
     """
     logger = logging.getLogger(ct.LOGGER_NAME)
-    logger.info("analyze_sentiment called")
-
-    # プレースホルダの返却値
-    return {"label": "unknown", "score": 0.0, "message": "[未実装] utils.analyze_sentiment を実装してください。"}
+    try:
+        prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", "以下のメッセージの感情を判定してください。出力は 'positive'/'negative'/'neutral' のいずれかでお願いします。"),
+                ("human", "{input}")
+            ]
+        )
+        chain = create_stuff_documents_chain(st.session_state.llm, prompt_template)
+        res = chain.invoke({"input": param})
+        answer = res.get("answer", str(res)).strip().lower()
+        if "positive" in answer or "ポジ" in answer:
+            return "positive"
+        if "negative" in answer or "ネガ" in answer:
+            return "negative"
+        return "neutral"
+    except Exception as e:
+        logger.error(f"analyze_sentiment error: {e}")
+        return "neutral"
 
 
 def aggregate_knowledge(param):
     """
-    会社・サービス・顧客の全データを横断検索するTool用の関数。
+    全データ横断検索ツール。`st.session_state.rag_chain` を使って横断検索を実行します。
 
     Args:
-        param: ユーザー入力値
+        param: ユーザーの問い合わせテキスト
 
     Returns:
-        検索結果に基づく要約文字列
+        要約された回答テキスト
     """
     logger = logging.getLogger(ct.LOGGER_NAME)
-    logger.info("aggregate_knowledge called")
-
-    # 全データ用のRAGチェーンが存在することを想定
-    if "rag_chain" not in st.session_state:
-        logger.error("rag_chain is not initialized")
-        return ct.NO_DOC_MATCH_MESSAGE
-
-    ai_msg = st.session_state.rag_chain.invoke({"input": param, "chat_history": st.session_state.chat_history})
-
-    # 会話履歴への追加
-    st.session_state.chat_history.extend([HumanMessage(content=param), AIMessage(content=ai_msg.get("answer", ""))])
-
-    return ai_msg.get("answer", ct.NO_DOC_MATCH_MESSAGE)
+    try:
+        # RAG全体を横断するChainを呼び出す
+        ai_msg = st.session_state.rag_chain.invoke({"input": param, "chat_history": st.session_state.chat_history})
+        answer = ai_msg.get("answer") if isinstance(ai_msg, dict) else str(ai_msg)
+        # 会話履歴への追加
+        st.session_state.chat_history.extend([HumanMessage(content=param), AIMessage(content=answer)])
+        return answer
+    except Exception as e:
+        logger.error(f"aggregate_knowledge error: {e}")
+        return ct.GET_LLM_RESPONSE_ERROR_MESSAGE
 
 
 def delete_old_conversation_log(result):

@@ -150,13 +150,6 @@ def initialize_agent_executor():
             description=ct.SEARCH_WEB_INFO_TOOL_DESCRIPTION
         )
         ,
-        # 全データ横断検索ツール
-        Tool(
-            name=ct.AGGREGATE_KB_TOOL_NAME,
-            func=utils.aggregate_knowledge,
-            description=ct.AGGREGATE_KB_TOOL_DESCRIPTION
-        )
-        ,
         # 汎用LLM応答ツール
         Tool(
             name=ct.ANSWER_WITH_LLM_TOOL_NAME,
@@ -174,6 +167,13 @@ def initialize_agent_executor():
             name=ct.SENTIMENT_ANALYSIS_TOOL_NAME,
             func=utils.analyze_sentiment,
             description=ct.SENTIMENT_ANALYSIS_TOOL_DESCRIPTION
+        )
+        ,
+        # 全データ横断検索ツール
+        Tool(
+            name=ct.AGGREGATE_KB_TOOL_NAME,
+            func=utils.aggregate_knowledge,
+            description=ct.AGGREGATE_KB_TOOL_DESCRIPTION
         )
     ]
 
