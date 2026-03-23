@@ -32,13 +32,13 @@ logger = logging.getLogger(ct.LOGGER_NAME)
 
 import traceback
 
+try:
+    initialize()
 except Exception as e:
-    logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
-    logger.error(traceback.format_exc())
-
-    st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
+    logger.error(f"{ct.INITIALIZATION_ERROR_MESSAGE}\n{traceback.format_exc()}")
+    st.error(utils.build_error_message(ct.INITIALIZATION_ERROR_MESSAGE), icon=ct.ERROR_ICON)
     st.stop()
-
+    
 # アプリ起動時のログ出力
 if not "initialized" in st.session_state:
     st.session_state.initialized = True
