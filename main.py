@@ -35,8 +35,9 @@ import traceback
 try:
     initialize()
 except Exception as e:
-    print(e)
-    traceback.print_exc()
+    logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
+    st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
+    st.stop()
 
 # アプリ起動時のログ出力
 if not "initialized" in st.session_state:
