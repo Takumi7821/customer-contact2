@@ -1,0 +1,60 @@
+[ERROR] 2026-03-21 04:35:13,471 line 35, in <module>, session_id=6521cb53729b489eb695eabbc38c9c7a: 初期化処理に失敗しました。
+Could not import serpapi python package. Please install it with `pip install google-search-results`.
+[ERROR] 2026-03-21 04:36:03,650 line 35, in <module>, session_id=3f16fcfd2ede45e49751d6638aacf7c4: 初期化処理に失敗しました。
+Could not import serpapi python package. Please install it with `pip install google-search-results`.
+[INFO] 2026-03-21 04:37:19,673 line 42, in <module>, session_id=90c4f015e40b4dd6b912c912dfcbd933: アプリが起動されました。
+[INFO] 2026-03-21 10:09:55,398 line 42, in <module>, session_id=cd7c46c5da054b02a1abd23d79f2f40d: アプリが起動されました。
+[INFO] 2026-03-21 10:11:03,057 line 102, in <module>, session_id=cd7c46c5da054b02a1abd23d79f2f40d: {'message': '株主優待について'}
+[INFO] 2026-03-21 10:11:13,305 line 212, in run_llm_chain, session_id=cd7c46c5da054b02a1abd23d79f2f40d: run_llm_chain called
+[INFO] 2026-03-21 10:11:16,761 line 212, in run_llm_chain, session_id=cd7c46c5da054b02a1abd23d79f2f40d: run_llm_chain called
+[INFO] 2026-03-21 10:11:23,445 line 132, in <module>, session_id=cd7c46c5da054b02a1abd23d79f2f40d: {'message': '株主優待とは、企業が株主に提供する特典やサービスのことです。通常、自社の商品やサービス、割引券、特別イベントへの招待などが含まれます。株主への感謝の意を表し、長期保有を促す目的があります。具体的な内容は企業によって異なります。'}
+[INFO] 2026-03-21 10:13:45,496 line 42, in <module>, session_id=49f30b6e529e4d5f9985719530de0d8d: アプリが起動されました。
+[INFO] 2026-03-21 10:15:00,321 line 102, in <module>, session_id=49f30b6e529e4d5f9985719530de0d8d: {'message': '株主優待について'}
+[INFO] 2026-03-21 10:15:15,092 line 132, in <module>, session_id=49f30b6e529e4d5f9985719530de0d8d: {'message': '株式会社EcoTeeの株主優待は2017年2月権利分をもって廃止されており、現在は株主優待の実施情報はありません。'}
+[INFO] 2026-03-21 10:48:40,692 line 42, in <module>, session_id=4859cc8343714108aee7f20ab0597bd6: アプリが起動されました。
+[INFO] 2026-03-21 10:57:00,335 line 42, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: アプリが起動されました。
+[INFO] 2026-03-21 10:58:12,034 line 102, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: {'message': '株主優待について'}
+[ERROR] 2026-03-21 10:58:20,686 line 225, in run_llm_chain, session_id=0fa2dfcbe7574e45839ff58de79e2034: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 10:58:24,221 line 225, in run_llm_chain, session_id=0fa2dfcbe7574e45839ff58de79e2034: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 10:58:26,647 line 225, in run_llm_chain, session_id=0fa2dfcbe7574e45839ff58de79e2034: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 10:58:29,153 line 225, in run_llm_chain, session_id=0fa2dfcbe7574e45839ff58de79e2034: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[INFO] 2026-03-21 10:58:31,802 line 132, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: {'message': '株主優待に関する具体的な情報を提供することができませんでした。一般的には、株主優待とは企業が株主に対して提供する特典やサービスのことで、主に自社の商品やサービスの割引、優待券、特別イベントへの招待などがあります。各企業によって内容や種類は異なりますが、詳細な情報は株式会社EcoTeeの公式情報を直接確認することをお勧めします。'}
+[INFO] 2026-03-21 10:59:04,553 line 102, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: {'message': '株主優待について'}
+[INFO] 2026-03-21 10:59:22,401 line 132, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: {'message': '株主優待は100株以上保有の株主が対象で、優待ポイントは当社のオンラインショップや直営店舗で使用可能です。1ポイントは1円として利用でき、譲渡や転売はできません。不備があった場合は、優待セット到着後7日以内にサポートセンターに連絡する必要があります。優待ポイントの有効期限は付与日から1年間です。'}
+[INFO] 2026-03-21 11:03:50,404 line 102, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: {'message': '株主優待について'}
+[INFO] 2026-03-21 11:04:12,650 line 132, in <module>, session_id=0fa2dfcbe7574e45839ff58de79e2034: {'message': '株式会社EcoTeeでは、株主優待制度を提供しており、対象となる株主は毎年3月31日および9月30日時点で株主名簿に記載されている方です。優待内容は、保有株数に応じて異なり、100株以上保有で基本優待プラン（EcoTee商品引換券2,000円相当）を受け取ることができます。興味がある方は株式の保有を検討してください。'}
+[INFO] 2026-03-21 11:04:44,916 line 42, in <module>, session_id=2b77aba5b01f4373ae92c121ef87d10e: アプリが起動されました。
+[INFO] 2026-03-21 11:04:53,875 line 102, in <module>, session_id=2b77aba5b01f4373ae92c121ef87d10e: {'message': '株主優待について'}
+[ERROR] 2026-03-21 11:05:00,345 line 225, in run_llm_chain, session_id=2b77aba5b01f4373ae92c121ef87d10e: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 11:05:02,892 line 225, in run_llm_chain, session_id=2b77aba5b01f4373ae92c121ef87d10e: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 11:05:05,397 line 225, in run_llm_chain, session_id=2b77aba5b01f4373ae92c121ef87d10e: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 11:05:07,687 line 225, in run_llm_chain, session_id=2b77aba5b01f4373ae92c121ef87d10e: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[INFO] 2026-03-21 11:05:11,667 line 132, in <module>, session_id=2b77aba5b01f4373ae92c121ef87d10e: {'message': '株主優待に関する情報は見つかりませんでした。一般的には、株主優待とは、企業が株主に対して提供する特典やサービスのことを指し、通常は自社製品やサービスの割引、優待券、特別イベントへの招待などがあります。株主優待は、株主に対する感謝の意を表すとともに、株式の保有を促進する目的があります。しかし、具体的な情報については、株式会社EcoTeeの公式な情報源を参照することをお勧めします。'}
+[INFO] 2026-03-21 11:07:09,388 line 102, in <module>, session_id=2b77aba5b01f4373ae92c121ef87d10e: {'message': '株主優待'}
+[ERROR] 2026-03-21 11:07:23,629 line 225, in run_llm_chain, session_id=2b77aba5b01f4373ae92c121ef87d10e: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[ERROR] 2026-03-21 11:07:25,956 line 225, in run_llm_chain, session_id=2b77aba5b01f4373ae92c121ef87d10e: run_llm_chain error: Prompt must accept context as an input variable. Received prompt with input variables: ['input']
+[INFO] 2026-03-21 11:07:29,899 line 132, in <module>, session_id=2b77aba5b01f4373ae92c121ef87d10e: {'message': '株主優待とは、企業が株主に対して提供する特典やサービスのことです。通常、一定数の株を保有することで、割引券、商品、株主総会の招待などが受けられます。株主優待は、株主の長期保有を促進するための施策として多くの企業が導入しています。'}
+[INFO] 2026-03-21 11:15:08,950 line 42, in <module>, session_id=5a550fc61c7d4da586456b5401efac45: アプリが起動されました。
+[INFO] 2026-03-21 11:15:44,289 line 42, in <module>, session_id=d6228364d1af42d7b7682415f6491820: アプリが起動されました。
+[INFO] 2026-03-21 11:16:01,410 line 102, in <module>, session_id=d6228364d1af42d7b7682415f6491820: {'message': '株主優待について教えて下さい'}
+[INFO] 2026-03-21 11:16:12,270 line 132, in <module>, session_id=d6228364d1af42d7b7682415f6491820: {'message': '株主優待について、法人名義の株主も優待対象であり、優待内容に関する問い合わせは株主優待サポートセンター（電話番号: 0120-123-456）にできます。'}
+[INFO] 2026-03-21 11:16:33,757 line 102, in <module>, session_id=d6228364d1af42d7b7682415f6491820: {'message': '株主優待'}
+[INFO] 2026-03-21 11:16:56,281 line 132, in <module>, session_id=d6228364d1af42d7b7682415f6491820: {'message': '株式会社EcoTeeでは、株主優待制度を設けており、株主の皆さまに感謝の意を表しています。優待は毎年3月31日および9月30日時点で株主名簿に記載されている株主が対象で、保有株数に応じて異なるプランがあります。100株以上保有の場合は基本優待プランとしてEcoTee商品引換券（2,000円相当）が提供され、オンラインショップや直営店舗で使用可能です。詳細は公式ウェブサイトで確認できます。'}
+[ERROR] 2026-03-21 11:20:14,171 line 35, in <module>, session_id=1528ee73c3bb4139b986880d3230ea19: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:24:10,335 line 35, in <module>, session_id=52448c599976497ea16c681258e19801: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:25:55,865 line 35, in <module>, session_id=bd07911570a74cb69eb6d5729f525a99: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:27:14,068 line 35, in <module>, session_id=4b8defb903eb4e1a914fa2239882b508: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:29:09,796 line 35, in <module>, session_id=739df264bd4f43eb97d607d87f46e63f: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:30:28,046 line 35, in <module>, session_id=1bd6f55794364acd82d31aaa7ba06ea5: 初期化処理に失敗しました。
+name 'ChatOpenAI' is not defined
+[ERROR] 2026-03-21 11:31:55,833 line 35, in <module>, session_id=57dd070c62674f42b68467a1b6f780ff: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:34:14,484 line 35, in <module>, session_id=c9b80cea6ea64d1fb26a7ab9bdfb6e43: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
+[ERROR] 2026-03-21 11:35:37,338 line 35, in <module>, session_id=b0cd53d2f27c4d2cb83d79864402cf11: 初期化処理に失敗しました。
+Could not import sentence_transformers python package. Please install it with `pip install sentence-transformers`.
