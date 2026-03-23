@@ -36,7 +36,7 @@ try:
     initialize()
 except Exception as e:
     logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
-    traceback.print_exc()  # ←追加（超重要）
+    logger.error(traceback.format_exc())  # ←ログに完全出力
 
     st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
     st.stop()
