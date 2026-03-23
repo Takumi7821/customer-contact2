@@ -5,3 +5,6 @@ openai
 chromadb
 python-dotenv
 tiktoken
+
+pymupdf
+docx2txt
