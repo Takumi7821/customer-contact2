@@ -29,6 +29,9 @@ logger = logging.getLogger(ct.LOGGER_NAME)
 ############################################################
 # 初期化処理
 ############################################################
+
+import traceback
+
 try:
     initialize()
 except Exception as e:
