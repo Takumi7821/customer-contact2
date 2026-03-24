@@ -29,8 +29,6 @@ logger = logging.getLogger(ct.LOGGER_NAME)
 ############################################################
 # 初期化処理
 ############################################################
-import traceback
-
 try:
     initialize()
 except Exception as e:
@@ -39,7 +37,7 @@ except Exception as e:
 
     st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
 
-    # st.stop() ← 一旦コメントアウト
+    st.stop() ← 一旦コメントアウト
 
 # アプリ起動時のログ出力
 if not "initialized" in st.session_state:

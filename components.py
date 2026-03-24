@@ -31,7 +31,7 @@ def display_sidebar():
         col1, col2 = st.columns([100, 1])
         with col1:
             st.session_state.agent_mode = st.selectbox(
-                label="",
+                label="Agent Mode",
                 options=[ct.AI_AGENT_MODE_ON, ct.AI_AGENT_MODE_OFF],
                 label_visibility="collapsed"
             )
