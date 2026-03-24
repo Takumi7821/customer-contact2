@@ -14,7 +14,7 @@ import streamlit as st
 import tiktoken
 from langchain_openai import ChatOpenAI
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
-from langchain_community.utilities import SerpAPIWrapper
+from langchain import SerpAPIWrapper
 from langchain.tools import Tool
 from langchain.agents import AgentType, initialize_agent
 import utils
@@ -122,7 +122,6 @@ def initialize_agent_executor():
     st.session_state.rag_chain = utils.create_rag_chain(ct.DB_ALL_PATH)
 
     # Web検索用のToolを設定するためのオブジェクトを用意
-    os.environ["SERPAPI_API_KEY"] = st.secrets["SERPAPI_API_KEY"]
     search = SerpAPIWrapper()
     # Agent Executorに渡すTool一覧を用意
     tools = [
