@@ -122,15 +122,16 @@ def initialize_agent_executor():
     st.session_state.rag_chain = utils.create_rag_chain(ct.DB_ALL_PATH)
 
     # Web検索用のToolを設定するためのオブジェクトを用意
- #   search = SerpAPIWrapper()
+    os.environ["SERPAPI_API_KEY"] = st.secrets["SERPAPI_API_KEY"]
+    search = SerpAPIWrapper()
     # Agent Executorに渡すTool一覧を用意
     tools = [
         # 会社に関するデータ検索用のTool
- #       Tool(
- #           name=ct.SEARCH_COMPANY_INFO_TOOL_NAME,
- #           func=utils.run_company_doc_chain,
- #           description=ct.SEARCH_COMPANY_INFO_TOOL_DESCRIPTION
- #       ),
+        Tool(
+            name=ct.SEARCH_COMPANY_INFO_TOOL_NAME,
+            func=utils.run_company_doc_chain,
+            description=ct.SEARCH_COMPANY_INFO_TOOL_DESCRIPTION
+        ),
         # サービスに関するデータ検索用のTool
         Tool(
             name=ct.SEARCH_SERVICE_INFO_TOOL_NAME,
