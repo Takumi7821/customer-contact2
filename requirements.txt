@@ -11,3 +11,5 @@ tiktoken
 
 pymupdf
 docx2txt
+
+google-search-results
